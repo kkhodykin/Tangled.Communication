@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Leverate.LXCRM.Communication.Transport.Abstractions;
 using Microsoft.Extensions.Logging;
+using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Infrastructure
 {

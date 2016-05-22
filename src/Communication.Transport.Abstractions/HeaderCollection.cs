@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Leverate.LXCRM.Communication.Transport.Abstractions
+namespace Tangled.Communication.Transport.Abstractions
 {
   public class HeaderCollection : IEnumerable<KeyValuePair<string, object>>
   {

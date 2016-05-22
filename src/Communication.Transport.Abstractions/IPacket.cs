@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Threading.Tasks;
-
-namespace Leverate.LXCRM.Communication.Transport.Abstractions
+﻿namespace Tangled.Communication.Transport.Abstractions
 {
   public interface IPacket
   {

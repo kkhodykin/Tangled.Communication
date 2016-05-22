@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Leverate.LXCRM.Communication.Transport.Abstractions;
+using Tangled.Communication.Transport.Abstractions;
 using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
 
 namespace Tangled.Communication.Infrastructure

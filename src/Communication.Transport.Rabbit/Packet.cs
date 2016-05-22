@@ -1,5 +1,5 @@
-﻿using Leverate.LXCRM.Communication.Transport.Abstractions;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
+using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Transport.Rabbit
 {

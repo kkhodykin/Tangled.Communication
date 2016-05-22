@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Leverate.LXCRM.Communication.Transport.Abstractions;
 using Tangled.Communication.Infrastructure.Serialization;
+using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Infrastructure.Extensions
 {

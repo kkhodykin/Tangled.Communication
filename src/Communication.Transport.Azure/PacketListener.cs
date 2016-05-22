@@ -2,9 +2,9 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using Leverate.LXCRM.Communication.Transport.Abstractions;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
+using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Transport.Azure
 {

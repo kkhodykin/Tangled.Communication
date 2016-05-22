@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Leverate.LXCRM.Communication.Transport.Abstractions;
 using Tangled.Communication.Infrastructure.Extensions;
+using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Infrastructure
 {

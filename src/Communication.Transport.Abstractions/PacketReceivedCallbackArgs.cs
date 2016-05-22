@@ -1,4 +1,4 @@
-﻿namespace Leverate.LXCRM.Communication.Transport.Abstractions
+﻿namespace Tangled.Communication.Transport.Abstractions
 {
   public struct PacketReceivedCallbackArgs
   {

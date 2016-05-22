@@ -26,6 +26,7 @@ namespace Tangled.Communication.Transport.Azure
 
       NamespaceManager = NamespaceManagers.GetOrAdd(settings.ConnectionString, NamespaceManager.CreateFromConnectionString);
       MessagingFactory = MessagingFactories.GetOrAdd(settings.ConnectionString, MessagingFactory.CreateFromConnectionString);
+
       _receiver = MessagingFactory.CreateMessageReceiver(settings.EntityPath,
         settings.ReentryAllowed ? ReceiveMode.PeekLock : ReceiveMode.ReceiveAndDelete);
     }
@@ -39,7 +40,7 @@ namespace Tangled.Communication.Transport.Azure
       }
     }
 
-    PacketReceivedCallbackArgs CreateCallbackArgs(BrokeredMessage message)
+    private PacketReceivedCallbackArgs CreateCallbackArgs(BrokeredMessage message)
     {
       return new PacketReceivedCallbackArgs(new Packet(message), CreateChannel(message));
     }
@@ -53,10 +54,17 @@ namespace Tangled.Communication.Transport.Azure
     {
       var callback = _callback;
       if (callback == null) return Task.FromResult(0);
+
       var args = CreateCallbackArgs(message);
       var callbacks = callback.GetInvocationList().OfType<PacketReceivedCallback>();
       var tasks = callbacks.Select(c => c(args));
+
       return Task.WhenAll(tasks);
+    }
+
+    public Task Start()
+    {
+      return Loop();
     }
 
     public void Dispose()
@@ -67,10 +75,6 @@ namespace Tangled.Communication.Transport.Azure
 
     public void OnPacket(PacketReceivedCallback callback)
     {
-      Loop().ContinueWith(t =>
-      {
-
-      });
       _callback += callback;
     }
   }

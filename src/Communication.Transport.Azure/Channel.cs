@@ -6,7 +6,7 @@ using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Transport.Azure
 {
-  class Channel : IChannel
+  internal class Channel : IChannel
   {
     private static readonly ConcurrentDictionary<string, MessageSender> SenderCache = new ConcurrentDictionary<string, MessageSender>();
     private readonly MessagingFactory _factory;

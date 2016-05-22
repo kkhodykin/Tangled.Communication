@@ -61,7 +61,7 @@ namespace Tangled.Communication.Infrastructure
       private set { Environment["packet.ReplyTo"] = value; }
     }
 
-    public string To
+    public string CorrelationId
     {
       get { return Environment.Get<string>("packet.To"); }
       private set { Environment["packet.To"] = value; }

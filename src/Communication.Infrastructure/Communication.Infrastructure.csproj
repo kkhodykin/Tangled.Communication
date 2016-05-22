@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\SenderExtensions.cs" />
     <Compile Include="Pipeline\Modules\ActionDescriptor.cs" />
     <Compile Include="Pipeline\Modules\HeadModule.cs" />
     <Compile Include="Pipeline\Modules\ModuleDescriptor.cs" />

@@ -25,7 +25,7 @@ namespace Tangled.Communication.Infrastructure.Pipeline
       }
       catch (Exception e)
       {
-        await context.Channel.Reply(e).ConfigureAwait(false);
+        await context.Channel.Send(e).ConfigureAwait(false);
         await context.Channel.DeadLetter(context.GetService<IPacket>()).ConfigureAwait(false);
         context.Logger.LogError(e.Message, e);
       }

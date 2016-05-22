@@ -9,14 +9,14 @@ namespace Tangled.Communication.Transport.Rabbit
     public HeaderCollection Headers { get; }
     public string Id { get; }
     public string ReplyTo { get; }
-    public string To { get; }
+    public string CorrelationId { get; }
 
     public Packet(BasicDeliverEventArgs deliverEventArgs)
     {
       Headers = new HeaderCollection(deliverEventArgs.BasicProperties.Headers);
       Id = deliverEventArgs.BasicProperties.MessageId;
       ReplyTo = deliverEventArgs.BasicProperties.ReplyTo;
-      To = deliverEventArgs.BasicProperties.CorrelationId;
+      CorrelationId = deliverEventArgs.BasicProperties.CorrelationId;
     }
   }
 }

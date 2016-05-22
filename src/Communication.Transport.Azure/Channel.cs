@@ -29,6 +29,11 @@ namespace Tangled.Communication.Transport.Azure
             dest => _factory.CreateMessageSender(dest)));
     }
 
+    public Task Send(IPacket packet)
+    {
+      throw new NotImplementedException();
+    }
+
     public Task Reply(object payload)
     {
       if (_factory == null || string.IsNullOrWhiteSpace(_message.ReplyTo))

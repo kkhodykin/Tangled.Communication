@@ -13,14 +13,14 @@ namespace Tangled.Communication.Transport.Azure
       Id = message.MessageId;
       ReplyTo = message.ReplyTo;
       LockToken = message.LockToken;
-      To = message.To;
+      CorrelationId = message.To;
     }
 
     public IPacketContent Payload { get; }
     public HeaderCollection Headers { get; }
     public string Id { get; }
     public string ReplyTo { get; }
-    public string To { get; }
+    public string CorrelationId { get; }
     public Guid LockToken { get; }
   }
 }

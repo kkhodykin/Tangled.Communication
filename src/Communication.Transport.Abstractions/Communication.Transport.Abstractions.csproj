@@ -46,9 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionSettings.cs" />
     <Compile Include="HeaderCollection.cs" />
     <Compile Include="IChannel.cs" />
+    <Compile Include="IConnection.cs" />
     <Compile Include="IListener.cs" />
     <Compile Include="IPacket.cs" />
     <Compile Include="IPacketContent.cs" />

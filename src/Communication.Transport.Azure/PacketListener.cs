@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using Tangled.Communication.Transport.Abstractions;
 
@@ -10,25 +8,12 @@ namespace Tangled.Communication.Transport.Azure
 {
   public class PacketListener : IListener
   {
-    private static readonly ConcurrentDictionary<string, NamespaceManager> NamespaceManagers = new ConcurrentDictionary<string, NamespaceManager>();
-    private static readonly ConcurrentDictionary<string, MessagingFactory> MessagingFactories = new ConcurrentDictionary<string, MessagingFactory>();
-    private readonly MessageReceiver _receiver;
+    private MessageReceiver _receiver;
     private PacketReceivedCallback _callback;
-    protected NamespaceManager NamespaceManager { get; private set; }
-    protected MessagingFactory MessagingFactory { get; private set; }
 
-    public PacketListener(ConnectionSettings settings)
+    internal PacketListener(MessageReceiver receiver)
     {
-      if (settings == null)
-        throw new ArgumentNullException(nameof(settings));
-      if (settings.ConnectionString == null)
-        throw new ArgumentNullException(nameof(settings.ConnectionString));
-
-      NamespaceManager = NamespaceManagers.GetOrAdd(settings.ConnectionString, NamespaceManager.CreateFromConnectionString);
-      MessagingFactory = MessagingFactories.GetOrAdd(settings.ConnectionString, MessagingFactory.CreateFromConnectionString);
-
-      _receiver = MessagingFactory.CreateMessageReceiver(settings.EntityPath,
-        settings.ReentryAllowed ? ReceiveMode.PeekLock : ReceiveMode.ReceiveAndDelete);
+      _receiver = receiver;
     }
 
     private async Task Loop()
@@ -47,7 +32,7 @@ namespace Tangled.Communication.Transport.Azure
 
     private Channel CreateChannel(BrokeredMessage message)
     {
-      return new Channel(MessagingFactory, _receiver.Mode == ReceiveMode.PeekLock? _receiver : null, message);
+      throw new NotImplementedException(message.ToString());
     }
 
     private Task OnMessageReceived(BrokeredMessage message)

@@ -34,14 +34,14 @@ namespace Tangled.Communication.Transport.Azure
       throw new NotImplementedException();
     }
 
-    public Task Reply(object payload)
-    {
-      if (_factory == null || string.IsNullOrWhiteSpace(_message.ReplyTo))
-        return Task.FromResult(0);
+    //public Task Reply(object payload)
+    //{
+    //  if (_factory == null || string.IsNullOrWhiteSpace(_message.ReplyTo))
+    //    return Task.FromResult(0);
 
-      var message = _responseBuilder.BuildResponse(payload);
-      return message == null ? Task.FromResult(0) : _sender.Value.SendAsync(message);
-    }
+    //  var message = _responseBuilder.BuildResponse(payload);
+    //  return message == null ? Task.FromResult(0) : _sender.Value.SendAsync(message);
+    //}
 
     public Task Complete(IPacket packet)
     {

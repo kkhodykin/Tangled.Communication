@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Tangled.Communication.Infrastructure.Extensions;
@@ -19,13 +20,14 @@ namespace Tangled.Communication.Infrastructure
       properties[typeof(Gateway).FullName] = new Gateway();
     }
 
-    public static IDisposable Create(Func<IDictionary<string, object>, Task> app, IDictionary<string, object> properties)
+    public static void Create(Func<IDictionary<string, object>, Task> app, IDictionary<string, object> properties)
     {
+      Contract.Requires<ArgumentNullException>(properties != null);
+
       var gateway = properties.Get<Gateway>(typeof(Gateway).FullName) ?? new Gateway();
       var listeners = properties.Get<IEnumerable<IListener>>("communication.Listeners") ?? Enumerable.Empty<IListener>();
       gateway.AddListeners(listeners);
       gateway.Start(app);
-      return gateway;
     }
   }
 }

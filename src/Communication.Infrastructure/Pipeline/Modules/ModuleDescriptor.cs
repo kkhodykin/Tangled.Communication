@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
@@ -8,15 +9,17 @@ namespace Tangled.Communication.Infrastructure.Pipeline.Modules
 {
   public sealed class ModuleDescriptor<TModule>
   {
-    private readonly ConcurrentDictionary<string, ActionDescriptor<TModule>> _actions;
+    private readonly ConcurrentDictionary<string, ActionDescriptor<TModule>> actions;
 
     public ModuleDescriptor(Type type)
     {
-      _actions =
+      Contract.Requires<ArgumentNullException>(type != null);
+
+      this.actions =
         new ConcurrentDictionary<string, ActionDescriptor<TModule>>(FindActions(type), StringComparer.OrdinalIgnoreCase);
     }
 
-    private IDictionary<string, ActionDescriptor<TModule>> FindActions(Type type)
+    private static IDictionary<string, ActionDescriptor<TModule>> FindActions(Type type)
     {
       return type.GetMethods(BindingFlags.Instance | BindingFlags.Public)
         .Where(m => !m.IsGenericMethod && !m.IsGenericMethodDefinition)
@@ -36,8 +39,10 @@ namespace Tangled.Communication.Infrastructure.Pipeline.Modules
 
     public ActionDescriptor<TModule> GetAction(string type)
     {
+      Contract.Requires<ArgumentNullException>(type != null);
+
       ActionDescriptor<TModule> result;
-      return _actions.TryGetValue(type, out result) ? result : null;
+      return this.actions.TryGetValue(type, out result) ? result : null;
     }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.ServiceBus.Messaging;
@@ -8,40 +9,36 @@ namespace Tangled.Communication.Transport.Azure
 {
   public class PacketListener : IListener
   {
-    private MessageReceiver _receiver;
-    private PacketReceivedCallback _callback;
+    private readonly MessageReceiver receiver;
+    private readonly IConnection connection;
+    private PacketReceivedCallback callback;
 
-    internal PacketListener(MessageReceiver receiver)
+    internal PacketListener(MessageReceiver receiver, IConnection connection)
     {
-      _receiver = receiver;
+      this.receiver = receiver;
+      this.connection = connection;
     }
 
     private async Task Loop()
     {
-      while (!_receiver.IsClosed)
+      while (!this.receiver.IsClosed)
       {
-        var message = await _receiver.ReceiveAsync().ConfigureAwait(false);
+        var message = await this.receiver.ReceiveAsync().ConfigureAwait(false);
         await OnMessageReceived(message).ConfigureAwait(false);
       }
     }
 
     private PacketReceivedCallbackArgs CreateCallbackArgs(BrokeredMessage message)
     {
-      return new PacketReceivedCallbackArgs(new Packet(message), CreateChannel(message));
-    }
-
-    private Channel CreateChannel(BrokeredMessage message)
-    {
-      throw new NotImplementedException(message.ToString());
+      return new PacketReceivedCallbackArgs(new Packet(message), this.connection);
     }
 
     private Task OnMessageReceived(BrokeredMessage message)
     {
-      var callback = _callback;
-      if (callback == null) return Task.FromResult(0);
+      if (this.callback == null) return Task.FromResult(0);
 
       var args = CreateCallbackArgs(message);
-      var callbacks = callback.GetInvocationList().OfType<PacketReceivedCallback>();
+      var callbacks = this.callback.GetInvocationList().OfType<PacketReceivedCallback>();
       var tasks = callbacks.Select(c => c(args));
 
       return Task.WhenAll(tasks);
@@ -49,18 +46,20 @@ namespace Tangled.Communication.Transport.Azure
 
     public Task Start()
     {
+      Contract.Ensures(Contract.Result<Task>() != null);
+
       return Loop();
     }
 
     public void Dispose()
     {
-      _callback = null;
-      _receiver.Close();
+      this.callback = null;
+      this.receiver.Close();
     }
 
-    public void OnPacket(PacketReceivedCallback callback)
+    public void OnPacket(PacketReceivedCallback receivedCallback)
     {
-      _callback += callback;
+      this.callback += receivedCallback;
     }
   }
 }

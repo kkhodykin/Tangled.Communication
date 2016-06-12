@@ -14,7 +14,7 @@ namespace Tangled.Communication.Infrastructure.Extensions
 
     internal static T Get<T>(this IDictionary<string, object> dictionary, string subDictionaryKey, string key)
     {
-      IDictionary<string, object> dictionary1 = dictionary.Get<IDictionary<string, object>>(subDictionaryKey);
+      var dictionary1 = dictionary.Get<IDictionary<string, object>>(subDictionaryKey);
       if (dictionary1 == null)
         return default (T);
       return dictionary1.Get<T>(key);

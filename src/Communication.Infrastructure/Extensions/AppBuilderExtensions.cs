@@ -22,6 +22,5 @@ namespace Tangled.Communication.Infrastructure.Extensions
         .Use<UseModulesMiddleware>(registry)
         .Use<DispatchResponseMiddleware>();
     }
-
   }
 }

@@ -14,22 +14,27 @@ namespace Tangled.Communication.Infrastructure.Pipeline.Modules
   {
     static readonly ModuleDescriptor<TModule> Descriptor = new ModuleDescriptor<TModule>(typeof(TModule));
 
-    private readonly Func<IPacketListenerContext, TModule> _factory;
+    private readonly Func<IPacketListenerContext, TModule> factory;
 
     public Module(Func<IPacketListenerContext, TModule> factory)
     {
-      _factory = factory;
+      this.factory = factory;
     }
 
     public override Task<object> Invoke(IPacketListenerContext context)
     {
-      var action = Descriptor.GetAction(context.Payload.Type);
-      if (action == null) return Next.Invoke(context);
+      var action = Descriptor.GetAction(context.Request.Payload.Type);
+      if (action == null)
+        return Next.Invoke(context);
 
-      context.Request = context.GetBody();
-      context.PayloadType = action.RequestType;
+      var module = this.factory(context);
 
-      return action.CallAction(_factory(context), context.Request);
+      if (module == null)
+        throw new InvalidOperationException($"Can't create module {typeof(TModule).FullName} using provided factory");
+
+      var body = context.GetBody(action.RequestType);
+
+      return action.CallAction(module, body);
     }
   }
 }

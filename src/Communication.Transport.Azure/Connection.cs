@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +22,11 @@ namespace Tangled.Communication.Transport.Azure
 
     public Connection(string connectionString)
     {
+      Contract.Requires<ArgumentNullException>(connectionString != null);
+
       ConnectionString = connectionString;
-      NamespaceManager = NamespaceManagers.GetOrAdd(ConnectionString, NamespaceManager.CreateFromConnectionString);
-      MessagingFactory = MessagingFactories.GetOrAdd(ConnectionString, MessagingFactory.CreateFromConnectionString);
+      NamespaceManager = NamespaceManagers.GetOrAdd(connectionString, NamespaceManager.CreateFromConnectionString);
+      MessagingFactory = MessagingFactories.GetOrAdd(connectionString, MessagingFactory.CreateFromConnectionString);
     }
 
     public IListener CreateListener(string path)
@@ -36,7 +39,7 @@ namespace Tangled.Communication.Transport.Azure
       var receiver = MessagingFactory.CreateMessageReceiver(path,
         allowRetries ? ReceiveMode.PeekLock : ReceiveMode.ReceiveAndDelete);
 
-      return new PacketListener(receiver);
+      return new PacketListener(receiver, this);
     }
 
     public IListener CreateListener(string path, bool allowRetries, bool @private)

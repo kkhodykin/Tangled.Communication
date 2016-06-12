@@ -10,7 +10,7 @@ namespace Tangled.Communication.Transport.Azure.Extensions
 {
   internal static class PacketExtensions
   {
-    public static BrokeredMessage ToMessage(this IPacket packet)
+    internal static BrokeredMessage ToMessage(this IPacket packet)
     {
       throw new NotImplementedException();
     }

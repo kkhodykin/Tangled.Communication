@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\tools\CodeContractsSettings.csproj" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -22,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Tangled.Communication.Transport.Abstractions.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,15 +49,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeaderCollection.cs" />
-    <Compile Include="IChannel.cs" />
+    <Compile Include="IConnection.contract.cs">
+      <DependentUpon>IConnection.cs</DependentUpon>
+    </Compile>
     <Compile Include="IConnection.cs" />
     <Compile Include="IListener.cs" />
+    <Compile Include="IPacket.contract.cs">
+      <DependentUpon>IPacket.cs</DependentUpon>
+    </Compile>
     <Compile Include="IPacket.cs" />
+    <Compile Include="IPacketContent.contract.cs">
+      <DependentUpon>IPacketContent.cs</DependentUpon>
+    </Compile>
     <Compile Include="IPacketContent.cs" />
+    <Compile Include="ISender.contract.cs">
+      <DependentUpon>ISender.cs</DependentUpon>
+    </Compile>
     <Compile Include="ISender.cs" />
     <Compile Include="PacketReceivedCallback.cs" />
     <Compile Include="PacketReceivedCallbackArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

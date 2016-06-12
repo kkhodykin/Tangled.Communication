@@ -1,43 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using Tangled.Communication.Transport.Abstractions;
 using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
 
 namespace Tangled.Communication.Infrastructure
 {
-  ///<summary>The gateway.</summary>
-  public class Gateway : IDisposable
+  using System.Configuration;
+
+  /// <summary> 
+  /// The gateway.
+  /// </summary>
+  public class Gateway
   {
-    private AppFunc _app;
+    /// <summary>
+    /// The listeners collection
+    /// </summary>
+    private readonly List<IListener> listeners = new List<IListener>();
 
-    private readonly List<IListener> _listeners = new List<IListener>();
+    /// <summary>
+    /// The application
+    /// </summary>
+    private AppFunc app;
 
+    /// <summary>
+    /// Adds the <c>listener</c> to the collection.
+    /// </summary>
+    /// <param name="listener">The <c>listener</c>.</param>
     public void AddListener(IListener listener)
     {
-      _listeners.Add(listener);
+      Contract.Requires<ArgumentNullException>(listener != null);
+      
+      this.listeners.Add(listener);
     }
 
+    /// <summary>
+    /// Adds the listeners.
+    /// </summary>
+    /// <param name="listeners">The listeners.</param>
     public void AddListeners(IEnumerable<IListener> listeners)
     {
-      _listeners.AddRange(listeners);
+      Contract.Requires<ArgumentNullException>(listeners != null);
+
+      this.listeners.AddRange(listeners);
     }
 
+    /// <summary>
+    /// Starts the specified application.
+    /// </summary>
+    /// <param name="app">The application.</param>
     internal void Start(AppFunc app)
     {
-      _app = app;
-      _listeners.ForEach(l => l.OnPacket(OnPacket));
+      Contract.Requires<ArgumentNullException>(app != null);
+
+      this.app = app;
+      this.listeners.ForEach(l => l.OnPacket(OnPacket));
     }
 
+    /// <summary>
+    /// Called when <see cref="IPacket"/> received.
+    /// </summary>
+    /// <param name="args">The arguments.</param>
+    /// <returns>Task that completes after all handlers has finished.</returns>
     private Task OnPacket(PacketReceivedCallbackArgs args)
     {
-      var context = new PacketListenerContext(args.Packet, args.Channel);
-      return _app(context.Environment);
-    }
-
-    void IDisposable.Dispose()
-    {
-      _listeners.ForEach(l=>l.Dispose());
+      var context = new PacketListenerContext(args.Packet, args.Connection);
+      return this.app(context.Environment);
     }
   }
 }

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using Microsoft.Extensions.Logging;
+using Tangled.Communication.Infrastructure.Serialization;
 using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Infrastructure
 {
-  public interface IPacketListenerContext : IPacket, IServiceProvider
+  [ContractClass(typeof(IPacketListenerContextContract))]
+  public interface IPacketListenerContext : IServiceProvider
   {
     IDictionary<string, object> Environment { get; }
-    Type PayloadType { get; set; }
-    IChannel Channel { get; }
-    object Request { get; set; }
-    object Response { get; set; }
+    IPacket Request { get; set; }
+    IPacket Response { get; set; }
     ILogger Logger { get; }
+    ISender ReplyChannel { get; }
   }
 }

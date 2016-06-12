@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +12,16 @@ namespace Tangled.Communication.Infrastructure.Extensions
   {
     public static Task Send(this ISender sender, object payload)
     {
-      throw new NotImplementedException();
+      Contract.Requires<ArgumentNullException>(sender != null);
+      Contract.Requires<ArgumentNullException>(payload != null);
+      return sender.Send(payload.Pack());
     }
 
     public static Task Send(this ISender sender, Exception exception)
     {
-      throw new NotImplementedException();
+      Contract.Requires<ArgumentNullException>(sender != null);
+      Contract.Requires<ArgumentNullException>(exception != null);
+      return sender.Send(exception.Pack());
     }
   }
 }

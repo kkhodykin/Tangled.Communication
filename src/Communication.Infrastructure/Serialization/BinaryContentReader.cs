@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
@@ -6,12 +7,23 @@ using System.Xml;
 namespace Tangled.Communication.Infrastructure.Serialization
 {
   internal class BinaryContentReader : XmlObjectSerializer, IPacketContentReader {
-    private DataContractSerializer _serializer;
+    private readonly Stream contentStream;
+    private readonly Type type;
+    private DataContractSerializer serializer;
 
-    public object Read(Stream stream, Type type)
+    public BinaryContentReader(Stream contentStream, Type type)
     {
-      _serializer = new DataContractSerializer(type);
-      return ReadObject(XmlDictionaryReader.CreateBinaryReader(stream, XmlDictionaryReaderQuotas.Max));
+      Contract.Requires<ArgumentNullException>(contentStream != null);
+      Contract.Requires<ArgumentNullException>(type != null);
+
+      this.contentStream = contentStream;
+      this.type = type;
+    }
+
+    public object Read()
+    {
+        this.serializer = new DataContractSerializer(this.type);
+      return ReadObject(XmlDictionaryReader.CreateBinaryReader(this.contentStream, XmlDictionaryReaderQuotas.Max));
     }
 
     public override object ReadObject(Stream stream)
@@ -21,27 +33,27 @@ namespace Tangled.Communication.Infrastructure.Serialization
 
     public override void WriteStartObject(XmlDictionaryWriter writer, object graph)
     {
-      _serializer.WriteStartObject(writer, graph);
+        this.serializer.WriteStartObject(writer, graph);
     }
 
     public override void WriteObjectContent(XmlDictionaryWriter writer, object graph)
     {
-      _serializer.WriteObjectContent(writer, graph);
+        this.serializer.WriteObjectContent(writer, graph);
     }
 
     public override void WriteEndObject(XmlDictionaryWriter writer)
     {
-      _serializer.WriteEndObject(writer);
+        this.serializer.WriteEndObject(writer);
     }
 
     public override object ReadObject(XmlDictionaryReader reader, bool verifyObjectName)
     {
-      return _serializer.ReadObject(reader, verifyObjectName);
+      return this.serializer.ReadObject(reader, verifyObjectName);
     }
 
     public override bool IsStartObject(XmlDictionaryReader reader)
     {
-      return _serializer.IsStartObject(reader);
+      return this.serializer.IsStartObject(reader);
     }
   }
 }

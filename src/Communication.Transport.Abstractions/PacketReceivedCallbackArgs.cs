@@ -13,12 +13,12 @@
     /// <summary>
     /// The communication <see cref="IChannel"/> used to notify underlying transport layer about packet processing state.
     /// </summary>
-    public IChannel Channel { get; }
+    public IConnection Connection { get; }
 
-    public PacketReceivedCallbackArgs(IPacket packet, IChannel channel)
+    public PacketReceivedCallbackArgs(IPacket packet, IConnection connection)
     {
       Packet = packet;
-      Channel = channel;
+      Connection = connection;
     }
   }
 }

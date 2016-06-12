@@ -12,7 +12,7 @@ namespace Tangled.Communication.Infrastructure.Pipeline
 
     protected override async Task Invoke(IPacketListenerContext context)
     {
-      await context.Channel.Send(context.Response).ConfigureAwait(false);
+      await context.ReplyChannel.Send(context.Response).ConfigureAwait(false);
     }
   }
 }

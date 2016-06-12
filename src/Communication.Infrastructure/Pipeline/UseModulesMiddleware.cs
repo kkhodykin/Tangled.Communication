@@ -5,7 +5,7 @@ using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, objec
 
 namespace Tangled.Communication.Infrastructure.Pipeline
 {
-  class UseModulesMiddleware : PacketProcessingMiddleware
+  internal class UseModulesMiddleware : PacketProcessingMiddleware
   {
     private readonly ModuleRegistry modules;
 

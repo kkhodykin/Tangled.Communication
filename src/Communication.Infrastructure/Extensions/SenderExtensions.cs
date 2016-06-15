@@ -14,6 +14,7 @@ namespace Tangled.Communication.Infrastructure.Extensions
     {
       Contract.Requires<ArgumentNullException>(sender != null);
       Contract.Requires<ArgumentNullException>(payload != null);
+
       return sender.Send(payload.Pack());
     }
 
@@ -21,6 +22,7 @@ namespace Tangled.Communication.Infrastructure.Extensions
     {
       Contract.Requires<ArgumentNullException>(sender != null);
       Contract.Requires<ArgumentNullException>(exception != null);
+
       return sender.Send(exception.Pack());
     }
   }

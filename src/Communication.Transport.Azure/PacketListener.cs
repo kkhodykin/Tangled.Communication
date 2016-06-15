@@ -19,6 +19,12 @@ namespace Tangled.Communication.Transport.Azure
       this.connection = connection;
     }
 
+    public IDisposable OnPacket(PacketReceivedCallback receivedCallback)
+    {
+      this.callback += receivedCallback;
+      return new DisposeAction(() => this.callback -= receivedCallback);
+    }
+
     private async Task Loop()
     {
       while (!this.receiver.IsClosed)
@@ -57,9 +63,16 @@ namespace Tangled.Communication.Transport.Azure
       this.receiver.Close();
     }
 
-    public void OnPacket(PacketReceivedCallback receivedCallback)
+    private class DisposeAction : IDisposable
     {
-      this.callback += receivedCallback;
+      private readonly Action action;
+
+      public DisposeAction(Action action)
+      {
+        this.action = action;
+      }
+
+      public void Dispose() => this.action();
     }
   }
 }

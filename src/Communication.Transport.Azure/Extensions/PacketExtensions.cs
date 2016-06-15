@@ -12,7 +12,21 @@ namespace Tangled.Communication.Transport.Azure.Extensions
   {
     internal static BrokeredMessage ToMessage(this IPacket packet)
     {
-      throw new NotImplementedException();
+      var result = new BrokeredMessage(packet.Payload.GetBodyStream(), true)
+      {
+        CorrelationId = packet.CorrelationId,
+        ContentType = packet.Payload.ContentType,
+        Label = packet.Payload.Type,
+        MessageId = packet.Id,
+        ReplyTo = packet.ReplyTo,
+      };
+
+      foreach (var keyValuePair in packet.Headers)
+      {
+        result.Properties.Add(keyValuePair);
+      }
+
+      return result;
     }
   }
 }

@@ -5,7 +5,7 @@ using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Transport.Rabbit
 {
-  class Packet : IPacket
+  internal class Packet : IIncomingPacket
   {
     private readonly IModel channel;
     private readonly BasicDeliverEventArgs deliverEventArgs;

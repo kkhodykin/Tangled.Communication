@@ -4,7 +4,7 @@ using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Transport.Rabbit
 {
-  class PacketContent : IPacketContent
+  internal class PacketContent : IPacketContent
   {
     private readonly Stream stream;
 

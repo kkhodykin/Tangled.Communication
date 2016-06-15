@@ -11,7 +11,7 @@ namespace Tangled.Communication.Transport.Abstractions
       get
       {
         Contract.Ensures(Contract.Result<string>() != null);
-        return default(string);
+        return string.Empty;
       }
     }
 

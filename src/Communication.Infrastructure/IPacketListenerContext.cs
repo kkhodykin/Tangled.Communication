@@ -11,7 +11,7 @@ namespace Tangled.Communication.Infrastructure
   public interface IPacketListenerContext : IServiceProvider
   {
     IDictionary<string, object> Environment { get; }
-    IPacket Request { get; set; }
+    IIncomingPacket Request { get; set; }
     IPacket Response { get; set; }
     ILogger Logger { get; }
     ISender ReplyChannel { get; }

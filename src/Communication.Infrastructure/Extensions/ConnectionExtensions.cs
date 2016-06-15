@@ -13,6 +13,16 @@ namespace Tangled.Communication.Infrastructure.Extensions
       where TService : class 
     {
       throw new NotImplementedException();
-    } 
+    }
+
+    /// <summary>
+    /// Returns default service instance listener.
+    /// </summary>
+    /// <returns></returns>
+    /// <remarks>The default listener used to receive replies from other services and for system notifications.</remarks>
+    public static IListener GetDefaultListener(this IConnection connection)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

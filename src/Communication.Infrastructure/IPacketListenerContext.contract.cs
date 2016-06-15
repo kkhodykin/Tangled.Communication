@@ -18,12 +18,12 @@ namespace Tangled.Communication.Infrastructure
       }
     }
 
-    public IPacket Request
+    public IIncomingPacket Request
     {
       get
       {
         Contract.Ensures(Contract.Result<IPacket>() != null);
-        return (IPacket)new object();
+        return (IIncomingPacket)new object();
       }
       set { }
     }

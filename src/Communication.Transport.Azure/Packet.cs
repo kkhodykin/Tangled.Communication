@@ -5,7 +5,7 @@ using Tangled.Communication.Transport.Abstractions;
 
 namespace Tangled.Communication.Transport.Azure
 {
-  internal class Packet : IPacket
+  internal class Packet : IIncomingPacket
   {
     private readonly BrokeredMessage message;
 

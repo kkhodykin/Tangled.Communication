@@ -13,19 +13,6 @@ namespace Tangled.Communication.Transport.Abstractions
     /// Call to subscribe for incoming packets.
     /// </summary>
     /// <param name="receivedCallback"></param>
-    void OnPacket(PacketReceivedCallback receivedCallback);
-  }
-
-  [ContractClassFor(typeof(IListener))]
-  public abstract class IListenerContract : IListener
-  {
-    public void Dispose()
-    {
-    }
-
-    public void OnPacket(PacketReceivedCallback receivedCallback)
-    {
-      Contract.Requires<ArgumentNullException>(receivedCallback != null);
-    }
+    IDisposable OnPacket(PacketReceivedCallback receivedCallback);
   }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace Tangled.Communication.Transport.Abstractions
 {
@@ -29,7 +30,7 @@ namespace Tangled.Communication.Transport.Abstractions
     /// </param>
     public HeaderCollection(IDictionary<string, object> headers)
     {
-        this.headers = headers ?? new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+      this.headers = headers ?? new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -43,8 +44,18 @@ namespace Tangled.Communication.Transport.Abstractions
     /// </returns>
     public object this[string key]
     {
-      get { return this.headers.ContainsKey(key) ? this.headers[key] : null; }
-      set { this.headers[key] = value; }
+      get
+      {
+        Contract.Requires<ArgumentNullException>(key != null);
+        return this.headers.ContainsKey(key) ? this.headers[key] : null;
+      }
+      set
+      {
+        Contract.Requires<ArgumentNullException>(key != null);
+        this.headers[key] = value;
+      }
+
+
     }
 
     /// <summary>
@@ -54,6 +65,7 @@ namespace Tangled.Communication.Transport.Abstractions
     /// <returns>Whether the <c>header</c> is present in the collection</returns>
     public bool Has(string header)
     {
+      Contract.Requires<ArgumentNullException>(header != null);
       return this.headers.ContainsKey(header);
     }
 

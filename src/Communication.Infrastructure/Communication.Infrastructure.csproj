@@ -85,6 +85,7 @@
     <Compile Include="IPacketListenerContext.contract.cs">
       <DependentUpon>IPacketListenerContext.cs</DependentUpon>
     </Compile>
+    <Compile Include="Packet.cs" />
     <Compile Include="Pipeline\Modules\ActionDescriptor.cs" />
     <Compile Include="Pipeline\Modules\AsyncInvocationBuilder.cs" />
     <Compile Include="Pipeline\Modules\HeadModule.cs" />
@@ -99,6 +100,8 @@
       <DependentUpon>PacketProcessingMiddleware.cs</DependentUpon>
     </Compile>
     <Compile Include="Pipeline\UseModulesMiddleware.cs" />
+    <Compile Include="Rpc\ResponseAwaiter.cs" />
+    <Compile Include="Rpc\SenderExtensions.cs" />
     <Compile Include="Serialization\BinaryContentReader.cs" />
     <Compile Include="Extensions\AppBuilderExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
@@ -135,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Builder\" />
-    <Folder Include="Rpc\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

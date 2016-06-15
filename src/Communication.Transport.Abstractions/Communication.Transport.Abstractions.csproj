@@ -66,7 +66,10 @@
       <DependentUpon>IConnection.cs</DependentUpon>
     </Compile>
     <Compile Include="IConnection.cs" />
+    <Compile Include="IDuplexSession.cs" />
+    <Compile Include="IIncomingPacket.cs" />
     <Compile Include="IListener.cs" />
+    <Compile Include="IListenerContract.cs" />
     <Compile Include="IPacket.contract.cs">
       <DependentUpon>IPacket.cs</DependentUpon>
     </Compile>
@@ -82,6 +85,9 @@
     <Compile Include="PacketReceivedCallback.cs" />
     <Compile Include="PacketReceivedCallbackArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Topology\SocketType.cs" />
+    <Compile Include="Topology\ISocketFactory.cs" />
+    <Compile Include="Topology\SocketDescriptor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

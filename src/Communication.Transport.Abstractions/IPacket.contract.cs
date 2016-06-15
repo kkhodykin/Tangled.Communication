@@ -11,7 +11,7 @@ namespace Tangled.Communication.Transport.Abstractions
       get
       {
         Contract.Ensures(Contract.Result<IPacketContent>() != null);
-        return default(IPacketContent);
+        return (IPacketContent)new object();
       }
     }
 
@@ -52,21 +52,6 @@ namespace Tangled.Communication.Transport.Abstractions
         //Code contract checks here...
         return default(string);
       }
-    }
-    public Task Complete()
-    {
-      //Code contract checks here...
-      return default(Task);
-    }
-    public Task Abandon()
-    {
-      //Code contract checks here...
-      return default(Task);
-    }
-    public Task DeadLetter()
-    {
-      //Code contract checks here...
-      return default(Task);
     }
   }
 }

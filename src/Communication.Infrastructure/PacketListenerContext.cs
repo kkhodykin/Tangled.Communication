@@ -21,7 +21,7 @@ namespace Tangled.Communication.Infrastructure
       Environment = dictionary;
     }
 
-    public PacketListenerContext(IPacket packet, IConnection connection) 
+    public PacketListenerContext(IIncomingPacket packet, IConnection connection) 
       : this()
     {
       var replyChannel = connection.CreateSender(packet.ReplyTo);
@@ -32,9 +32,9 @@ namespace Tangled.Communication.Infrastructure
     public ILogger Logger => this.GetService<ILogger>();
     public ISender ReplyChannel => this.GetService<ISender>();
 
-    public IPacket Request
+    public IIncomingPacket Request
     {
-      get { return Environment.Get<IPacket>("packet.Request"); }
+      get { return Environment.Get<IIncomingPacket>("packet.Request"); }
       set { Environment["packet.Reaquest"] = value; }
     }
 

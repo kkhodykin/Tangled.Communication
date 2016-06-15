@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Diagnostics.Contracts;
 
@@ -11,7 +12,7 @@ namespace Tangled.Communication.Transport.Abstractions
       get
       {
         Contract.Ensures(Contract.Result<string>() != null);
-        return default(string);
+        return String.Empty;
       }
     }
 
@@ -20,7 +21,7 @@ namespace Tangled.Communication.Transport.Abstractions
       get
       {
         Contract.Ensures(Contract.Result<string>() != null);
-        return default(string);
+        return String.Empty;
       }
     }
 

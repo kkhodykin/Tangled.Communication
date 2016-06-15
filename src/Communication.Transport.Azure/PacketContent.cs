@@ -14,7 +14,7 @@ namespace Tangled.Communication.Transport.Azure
     {
       this.message = message;
       ContentType = message.ContentType;
-      Type = message.CorrelationId;
+      Type = message.Label;
     }
 
     public Stream GetBodyStream()

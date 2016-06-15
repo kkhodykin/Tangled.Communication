@@ -5,20 +5,27 @@ using Tangled.Communication.Transport.Azure.Extensions;
 
 namespace Tangled.Communication.Transport.Azure
 {
-    /// <summary>
-    /// Can send the <see cref = "IPacket"/> over the underlying transport layer.
-    /// </summary>  
+  /// <summary>
+  /// Can send the <see cref = "IPacket"/> over the underlying transport layer.
+  /// </summary>  
   public class PacketSender : ISender
   {
     private readonly MessageSender sender;
 
     /// <summary>
+    /// Connection object which manages the specific <see cref="ISender"/> instance lifetime.
+    /// </summary>
+    public IConnection Connection { get; }
+
+    /// <summary>
     /// Creates instance of <see cref="PacketSender"/> class
     /// </summary>
     /// <param name="sender"></param>
-    public PacketSender(MessageSender sender)
+    /// <param name="connection">IConnection object</param>
+    public PacketSender(MessageSender sender, IConnection connection)
     {
       this.sender = sender;
+      Connection = connection;
     }
 
     /// <summary>
